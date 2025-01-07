@@ -1,0 +1,798 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A Demonstration of Dynamical Systems %
+% Author: Tyler Jones                  %
+% Last Edit: 01.07.2025                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% IMPORT PACKAGES %%%
+%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{amsbook}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx} % For including images
+\usepackage{eso-pic} % For background placement
+\usepackage{geometry} % For page layout
+\usepackage{appendix}
+\usepackage{float}
+\usepackage{url}
+\geometry{a4paper, margin=1in}
+\usepackage{fancyhdr} % For fancy headers
+\pagestyle{fancy}
+
+% Command to place the background image
+\newcommand\BackgroundPic{
+    \put(0,0){
+        \parbox[b][\paperheight]{\paperwidth}{%
+            \vfill
+            \centering
+            \includegraphics[width=\paperwidth, height=\paperheight]{Lorenz.png}%
+            \vfill
+        }
+    }
+}
+
+% Remove chapter number from header, and display chapter title instead
+\fancyhead[L]{}  % Clear left header
+\fancyhead[C]{\leftmark}  % Add chapter title (from \chaptermark) to center header
+\fancyhead[R]{}  % Clear right header
+
+\begin{document}
+
+% Add the background image to the cover page
+\AddToShipoutPictureBG*{\BackgroundPic}
+
+% Cover Page Content
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    {\Huge\bfseries \color{white} Applications of Dynamical Systems in Science and Engineering \par}
+    \vspace{2cm}
+    {\Large \color{white} Tyler J. Jones \par}
+    \vspace{1cm}
+\end{titlepage}
+
+% Remove background for subsequent pages
+\ClearShipoutPictureBG
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%
+%%% INTRODUCTION %%%
+%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}
+This is the first chapter.
+
+%%%%%%%%%%%%%%%%%%%
+%%% 1D DYNAMICS %%%
+%%%%%%%%%%%%%%%%%%%
+\chapter{One-Dimensional Dynamics}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%% DISCRETE SYSTEMS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discrete Systems}
+In this section, we will discuss the behavior of discrete dynamical systems. Discrete systems evolve in discrete steps, with the state at the next time step being determined by a rule applied to the current state.
+
+\subsection{Introduction to Discrete Systems}
+A discrete dynamical system is defined by a recurrence relation, where the next state of the system is a function of its current state. These systems are often represented by equations of the form:
+
+\[
+x_{n+1} = f(x_n)
+\]
+
+where \( x_n \) is the state of the system at time \(n\), and \( f(x_n) \) is the function that defines the system’s evolution.
+
+\subsection{Example: Logistic Map}
+One of the most well-known examples of a discrete dynamical system is the logistic map, given by the recurrence relation:
+
+\[
+x_{n+1} = r x_n (1 - x_n)
+\]
+
+where \( r \) is a parameter that controls the behavior of the system, and \( x_n \) is the population at time step \( n \), normalized between 0 and 1. The logistic map is widely used to model population growth and other phenomena in nature.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{LogisticBifurcationDiagram.png}
+    \caption{Bifurcation diagram of the logistic map, showing the transition from periodic to chaotic behavior as the control parameter $r$ is varied.}
+    \label{fig:LogisticBifurcationDiagram}
+\end{figure}
+
+\subsubsection{Behavior of the Logistic Map}
+The behavior of the logistic map varies with the value of \( r \). For values of \( r \) between 0 and 4, the system shows a wide variety of behaviors:
+
+- For \( 0 < r \leq 1 \), the system converges to a fixed point.
+- For \( 1 < r \leq 3 \), the system exhibits periodic behavior, with a fixed point alternating between two or more values.
+- For \( 3 < r \leq 4 \), the system becomes chaotic, with sensitive dependence on initial conditions, where small changes in the initial value of \( x_0 \) can lead to drastically different outcomes.
+
+\subsection{Fixed Points and Stability}
+In a discrete dynamical system, fixed points (or equilibrium points) are values of \( x \) where the system does not change. For a system defined by \( x_{n+1} = f(x_n) \), a fixed point \( x^* \) satisfies:
+
+\[
+f(x^*) = x^*
+\]
+
+To determine whether a fixed point is stable, we calculate the derivative of \( f(x) \) at \( x^* \). If the absolute value of the derivative is less than 1, the fixed point is stable; if it is greater than 1, the fixed point is unstable.
+
+\subsubsection{Example of Stability Analysis}
+Consider the logistic map \( x_{n+1} = r x_n (1 - x_n) \). The fixed points are given by the solutions to:
+
+\[
+r x^* (1 - x^*) = x^*
+\]
+
+Solving for \( x^* \), we find two fixed points: \( x^* = 0 \) and \( x^* = 1 - \frac{1}{r} \). To analyze stability, we compute the derivative of the logistic map:
+
+\[
+f'(x) = r(1 - 2x)
+\]
+
+At \( x^* = 0 \), the derivative is \( f'(0) = r \), and at \( x^* = 1 - \frac{1}{r} \), the derivative is \( f'(1 - \frac{1}{r}) = -r \). The stability of each fixed point depends on the value of \( r \).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% CONTINUOUS SYSTEMS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Continuous Systems}
+
+Continuous systems are described by differential equations that model the time evolution of the system's state. These systems are often governed by physical laws such as Newton's laws of motion, conservation of energy, or other fundamental principles. In contrast to discrete systems, where the state changes at specific time intervals, continuous systems evolve continuously over time.
+
+\subsection{Linear Systems}
+
+A simple example of a linear continuous system is the harmonic oscillator. The equation governing the motion of a harmonic oscillator is a second-order linear differential equation:
+
+\begin{equation}
+    \ddot{x} + \omega^2 x = 0,
+\end{equation}
+
+where \(x(t)\) is the displacement as a function of time, \(\omega\) is the angular frequency of oscillation, and \(\ddot{x}\) represents the second derivative of \(x\) with respect to time.
+
+The solution to this differential equation is sinusoidal:
+
+\begin{equation}
+    x(t) = A \cos(\omega t + \phi),
+\end{equation}
+
+where \(A\) is the amplitude and \(\phi\) is the phase.
+
+\subsection{Damped Harmonic Oscillator}
+
+A more realistic example is the damped harmonic oscillator, which introduces friction or resistance to the motion. The equation for the damped harmonic oscillator is:
+
+\begin{equation}
+    \ddot{x} + 2\zeta \omega \dot{x} + \omega^2 x = 0,
+\end{equation}
+
+where \(\zeta\) is the damping ratio, \(\omega\) is the angular frequency, and \(\dot{x}\) is the velocity (first derivative of \(x\) with respect to time).
+
+The behavior of this system depends on the damping ratio:
+- \(\zeta > 1\) leads to an overdamped response.
+- \(\zeta = 1\) is critically damped.
+- \(\zeta < 1\) leads to an underdamped oscillatory response.
+
+The solution for the underdamped case (\(\zeta < 1\)) is:
+
+\begin{equation}
+    x(t) = A e^{-\zeta \omega t} \cos(\omega_d t + \phi),
+\end{equation}
+
+where \(\omega_d = \omega \sqrt{1 - \zeta^2}\) is the damped angular frequency.
+
+\subsection{The Logistic Equation}
+
+The logistic equation is another fundamental model in continuous systems, especially in biology and population dynamics. It models the growth of a population with limited resources. The equation is:
+
+\begin{equation}
+    \frac{dP}{dt} = rP \left(1 - \frac{P}{K}\right),
+\end{equation}
+
+where \(P(t)\) is the population at time \(t\), \(r\) is the intrinsic growth rate, and \(K\) is the carrying capacity of the environment.
+
+The solution to this equation describes the population growth over time, initially growing exponentially but eventually leveling off as the population approaches the carrying capacity.
+
+\subsection{Coupled Systems}
+
+In many physical systems, multiple variables interact and affect each other simultaneously. A common example is coupled harmonic oscillators, where two masses are attached by springs and move in relation to each other. The system can be described by the following coupled differential equations:
+
+\begin{equation}
+    m_1 \ddot{x_1} = -k_1 x_1 - k_2 (x_1 - x_2),
+\end{equation}
+\begin{equation}
+    m_2 \ddot{x_2} = -k_2 (x_2 - x_1),
+\end{equation}
+
+where \(x_1\) and \(x_2\) are the displacements of the masses, \(m_1\) and \(m_2\) are the masses, and \(k_1\) and \(k_2\) are the spring constants. These equations describe the motion of two coupled masses and can lead to complex dynamics depending on the relationship between the parameters.
+
+\subsection{Nonlinear Systems}
+
+In nonlinear continuous systems, the relationship between the variables is not proportional. Nonlinear systems can exhibit more complex behaviors, such as chaos and bifurcations. A well-known example is the Van der Pol oscillator, which is described by the following nonlinear differential equation:
+
+\begin{equation}
+    \ddot{x} - \mu (1 - x^2) \dot{x} + x = 0,
+\end{equation}
+
+where \(\mu\) is a nonlinearity parameter. The behavior of this system changes dramatically as the value of \(\mu\) is varied, transitioning from simple harmonic motion to limit cycle oscillations and eventually chaotic behavior as \(\mu\) increases.
+
+The solution to the Van der Pol oscillator is typically obtained numerically, as an analytical solution is not available. The system exhibits a stable limit cycle for certain parameter values, where the state of the system oscillates with a constant amplitude.
+
+\subsection{Stability and Lyapunov's Direct Method}
+
+In continuous systems, stability refers to the behavior of the system's trajectories as time progresses. A system is stable if small perturbations in the initial conditions lead to small changes in the solution over time. Lyapunov's direct method is a powerful technique for analyzing the stability of nonlinear systems. 
+
+For a system described by \(\dot{x} = f(x)\), a function \(V(x)\) (called a Lyapunov function) is chosen such that:
+- \(V(x) > 0\) for all \(x \neq 0\),
+- \(\dot{V}(x) < 0\) for all \(x \neq 0\).
+
+If such a function exists, the equilibrium at \(x = 0\) is stable. This method is widely used to determine the stability of equilibrium points in dynamical systems.
+
+\subsection{Summary of Continuous Systems}
+
+Continuous systems can vary from simple linear models like harmonic oscillators to more complex nonlinear systems exhibiting chaotic behavior. Understanding the mathematical representation of these systems is crucial for predicting their behavior and applying them to real-world problems in physics, engineering, biology, and economics. Numerical methods are often used to solve nonlinear differential equations and study the dynamics of these systems, especially when an analytical solution is not available.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ONE-DIMENSIONAL BIFURCATIONS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{One-Dimensional Bifurcations}
+
+In this section, we will explore the concept of bifurcations in one-dimensional dynamical systems. A bifurcation occurs when a small change in a system's parameters causes a qualitative change in the system's behavior. In one-dimensional systems, bifurcations typically involve changes in the stability of fixed points or periodic orbits.
+
+\subsection{Types of Bifurcations}
+
+One-dimensional systems can exhibit a variety of bifurcations, with the most common types being the **transcritical bifurcation**, **pitchfork bifurcation**, and **period-doubling bifurcation**. These bifurcations can be identified by analyzing the fixed points and the stability of the system as a control parameter is varied.
+
+\subsection{Transcritical Bifurcation}
+
+A **transcritical bifurcation** occurs when two fixed points of a system exchange their stability as a control parameter is varied. The system exhibits a change in behavior at the bifurcation point, where the stability of the fixed points switches. A simple example of a system that exhibits a transcritical bifurcation is:
+
+\[
+\frac{dx}{dt} = r x (1 - x)
+\]
+
+where \( r \) is a parameter that controls the system's dynamics. The fixed points of this system are:
+
+\[
+x = 0 \quad \text{and} \quad x = 1
+\]
+
+At \( r = 0 \), both fixed points \( x = 0 \) and \( x = 1 \) are stable. However, as \( r \) becomes positive, \( x = 0 \) becomes unstable and \( x = 1 \) becomes stable. Conversely, for \( r < 0 \), \( x = 1 \) becomes unstable and \( x = 0 \) becomes stable. This transition is a classic example of a transcritical bifurcation.
+
+\subsection{Pitchfork Bifurcation}
+
+A **pitchfork bifurcation** occurs when a single stable fixed point splits into two stable fixed points, creating symmetry in the system. The simplest example of a pitchfork bifurcation is given by the system:
+
+\[
+\frac{dx}{dt} = r x - x^3
+\]
+
+where \( r \) is a control parameter. The fixed points of this system are:
+
+\[
+x = 0 \quad \text{and} \quad x = \pm \sqrt{|r|}
+\]
+
+For \( r > 0 \), the system has a single stable fixed point at \( x = 0 \). As \( r \) becomes negative, the fixed point at \( x = 0 \) becomes unstable, and two stable fixed points appear at \( x = \pm \sqrt{|r|} \). This bifurcation exhibits symmetry and is known as a **supercritical pitchfork bifurcation**.
+
+Conversely, for \( r < 0 \), the system exhibits a **subcritical pitchfork bifurcation**, where the fixed points at \( x = \pm \sqrt{|r|} \) exist for all \( r \), but the stability behavior differs.
+
+\subsection{Period-Doubling Bifurcation}
+
+In a **period-doubling bifurcation**, a periodic orbit of a dynamical system splits into two periodic orbits as a control parameter is increased. This process repeats, causing the system to exhibit increasingly complex behavior. The logistic map:
+
+\[
+x_{n+1} = r x_n (1 - x_n)
+\]
+
+provides a classic example of period-doubling bifurcations. As the parameter \( r \) increases, the system's fixed point loses stability and splits into a periodic orbit. Further increases in \( r \) lead to additional bifurcations, resulting in chaos. The bifurcation diagram of the logistic map is often used to illustrate the transition to chaos via period-doubling.
+
+\subsection{Bifurcation Diagrams}
+
+A **bifurcation diagram** is a graphical representation that shows how the fixed points or periodic orbits of a system change as a control parameter is varied. In a bifurcation diagram, the value of the control parameter is typically plotted on the x-axis, while the corresponding values of the fixed points or periodic orbits are plotted on the y-axis.
+
+For example, the bifurcation diagram for the logistic map:
+
+\[
+x_{n+1} = r x_n (1 - x_n)
+\]
+
+shows how the fixed points and periodic orbits of the system change as \( r \) varies. The diagram typically reveals regions of stability, periodic behavior, and chaos.
+
+\subsection{Hopf Bifurcation in 1D}
+
+Though typically discussed in higher-dimensional systems, a **Hopf bifurcation** can also be studied in one-dimensional systems under specific conditions. In one dimension, a Hopf bifurcation occurs when the real part of the eigenvalue of the Jacobian matrix crosses zero, leading to a change from a stable fixed point to an oscillatory behavior.
+
+\section{Applications of One-Dimensional Bifurcations}
+
+One-dimensional bifurcations have a wide range of applications in physics, biology, and engineering. Some examples include:
+
+\begin{itemize}
+    \item **Population dynamics**: Bifurcations can be used to model the behavior of populations in biology, where species undergo sudden changes in population growth due to environmental changes or resource limitations.
+    \item **Oscillators**: In electrical engineering, bifurcations in oscillators can lead to changes in frequency and amplitude as a parameter, such as resistance or capacitance, is varied.
+    \item **Fluid dynamics**: Bifurcations can occur in fluid flow models, where small changes in parameters like pressure or velocity can lead to sudden transitions between different flow regimes.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%
+%%% 2D DYNAMICS %%%
+%%%%%%%%%%%%%%%%%%%
+\chapter{Two-Dimensional Dynamics}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%% LINEAR SYSTEMS %%%
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Linear Systems}
+In this section, we discuss linear dynamical systems in two dimensions. Linear systems are often used to approximate the behavior of more complex nonlinear systems in the vicinity of fixed points, and they provide insight into the stability and qualitative dynamics of a system.
+
+\subsection{General Form of a Linear System}
+
+A general two-dimensional linear system can be expressed as a reduced set of first-order differential equations:
+
+\[
+\frac{dx}{dt} = a_{11}x + a_{12}y
+\]
+\[
+\frac{dy}{dt} = a_{21}x + a_{22}y
+\]
+
+Where \(x(t)\) and \(y(t)\) are the state variables, and \(a_{ij}\) are constants that define the system's coefficients. In matrix form, this can be written as:
+
+\[
+\frac{d}{dt} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
+\]
+
+Here, the matrix of coefficients is denoted as \(\underline{\underline{\mathbf{A}}}\):
+
+\[
+\dot{\mathbf{v}} =\frac{d}{dt} \mathbf{v} = \underline{\underline{\mathbf{A}}} \mathbf{v}
+\]
+
+Where \({\mathbf{v}} = \begin{pmatrix} x \\ y \end{pmatrix}\).
+
+\subsection{Solution of the Linear System}
+
+The solution to this system depends on the eigenvalues and eigenvectors of the matrix \(\underline{\underline{\mathbf{A}}}\). To find the solutions, we first compute the eigenvalues \(\lambda\) by solving the characteristic equation:
+
+\begin{equation}
+    \text{det}(\underline{\underline{\mathbf{A}}} - \lambda \underline{\underline{\mathbf{I}}}) = \mathbf{0}
+    \label{eq:LinearSysCharacteristicEquation}
+\end{equation}
+
+Where \(\underline{\underline{\mathbf{I}}}\) is the identity matrix. The resulting eigenvalues characterize the stability and behavior of the system, and the corresponding eigenvectors provide the directions in which the system evolves.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% CLASSIFICATION OF LINEAR SYSTEMS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Classification of Linear Systems}
+
+The behavior of the system is determined by the eigenvalues of the matrix \(\underline{\underline{\mathbf{A}}}\).
+
+\subsubsection{Trace and Determinant Equations}
+The eigenvalues of a linear system are related to the trace and determinant of the Jacobian matrix. For a 2x2 matrix \(\underline{\underline{\mathbf{A}}}\), we recall that:
+
+\[
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}
+\]
+
+the eigenvalues \( \lambda_1 \) and \( \lambda_2 \) are the solutions to the characteristic equation (Equation \ref{eq:LinearSysCharacteristicEquation}). One can show that this results in the quadratic equation:
+
+\begin{equation}
+    \lambda^2 - \text{Tr}(\underline{\underline{\mathbf{A}}})\lambda + \det(\underline{\underline{\mathbf{A}}}) = 0
+\end{equation}
+
+- The \textbf{trace} (\( \text{Tr}(\underline{\underline{\mathbf{A}}}) = \tau \)) is the sum of the diagonal elements of the matrix:
+
+\[
+\tau = a_{11} + a_{22}
+\]
+
+- The \textbf{determinant} (\( \det(\underline{\underline{\mathbf{A}}}) = \Delta\)) is the product of the diagonal elements minus the product of the off-diagonal elements:
+
+\[
+\Delta = a_{11}a_{22} - a_{12}a_{21}
+\]
+
+The eigenvalues \( \lambda_1 \) and \( \lambda_2 \) can be determined by solving the quadratic equation:
+
+\begin{equation}
+    \lambda_{1,2} = \frac{\tau \pm \sqrt{\tau^2 - 4 \Delta}}{2}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{DetTr.jpg}
+    \caption{Determinant vs trace ($\Delta$ vs $\tau$) diagram for classifying linear systems.}
+    \label{fig:DetTr}
+\end{figure}
+
+\subsubsection{\textbf{Centers}}
+If the eigenvalues are purely imaginary (no real part), the equilibrium point is a center. The trajectories form closed orbits around the origin. Consider the following system:
+
+$$
+\begin{cases}
+\dot{x} &= - y, \\
+\dot{y} &= x .
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}
+$$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Center.png}
+    \caption{Trace vs determinant diagram and phase portrait for a center.}
+    \label{fig:Center}
+\end{figure}
+
+\subsubsection{\textbf{Stable Nodes}}
+If both eigenvalues are real and negative, the equilibrium point is a stable node. The trajectories approach the origin along straight lines. Consider the following system:
+
+$$
+\begin{cases}
+\dot{x} &= -2x, \\
+\dot{y} &= -4y.
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} -2 & 0 \\ 0 & -4 \end{pmatrix}
+$$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{StableNode.png}
+    \caption{Trace vs determinant diagram and phase portrait for a stable node.}
+    \label{fig:StableNode}
+\end{figure}
+
+\subsubsection{\textbf{Unstable Nodes}}
+If both eigenvalues are real and positive, the equilibrium point is an unstable node. The trajectories diverge from the origin along straight lines. Consider the following system:
+
+$$
+\begin{cases}
+\dot{x} &= 2x, \\
+\dot{y} &= 4y.
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} 2 & 0 \\ 0 & 4 \end{pmatrix}
+$$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{UnstableNode.png}
+    \caption{Trace vs determinant diagram and phase portrait for an unstable node.}
+    \label{fig:UnstableNode}
+\end{figure}
+
+\subsubsection{\textbf{Stable Spirals}}
+If the eigenvalues are complex with negative real parts, the equilibrium point is a spiral sink. Trajectories spiral inwards towards the origin. Consider the following system:
+
+$$
+\begin{cases}
+\dot{x} &= x - y, \\
+\dot{y} &= -x - y.
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} -1 & 1 \\ -1 & -1 \end{pmatrix}
+$$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{StableSpiral.png}
+    \caption{Trace vs determinant diagram and phase portrait for a stable spiral.}
+    \label{fig:StableSpiral}
+\end{figure}
+
+\subsubsection{\textbf{Unstable Spirals}}
+If the eigenvalues are complex with positive real parts, the equilibrium point is a spiral source. Trajectories spiral outwards from the origin. Consider the following system:
+
+$$
+\begin{cases}
+\dot{x} &= x - y, \\
+\dot{y} &= x + y.
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix}
+$$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{UnstableSpiral.png}
+    \caption{Trace vs determinant diagram and phase portrait for a stable spiral.}
+    \label{fig:UnstableSpiral}
+\end{figure}
+
+\subsubsection{\textbf{Attracting Star/Degenerate Nodes}}
+If both eigenvalues are real, equal, and nonzero, the equilibrium point is a star or degenerate node. All trajectories either converge (if eigenvalues are negative) or diverge (if eigenvalues are positive) directly along straight lines, but not necessarily along eigenvector directions. Consider the following system:
+$$
+\begin{cases}
+\dot{x} &= x - y, \\
+\dot{y} &= x + y.
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix}
+$$
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{AttractingStar.png}
+    \caption{Trace vs determinant diagram and phase portrait for an attracting star/degenerative node.}
+    \label{fig:AttractingStar}
+\end{figure}
+
+\subsubsection{\textbf{Repelling Star/Degenerate Nodes}}
+If both eigenvalues are real, equal, and nonzero, the equilibrium point is a star or degenerate node. All trajectories either converge (if eigenvalues are negative) or diverge (if eigenvalues are positive) directly along straight lines, but not necessarily along eigenvector directions. Consider the following system:
+
+$$
+\begin{cases}
+\dot{x} &= x + y, \\
+\dot{y} &= y.
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} 1 & 1 \\ 0 & -1 \end{pmatrix}
+$$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{RepellingStar.png}
+    \caption{Trace vs determinant diagram and phase portrait for an repelling star/degenerative node.}
+    \label{fig:RepellingStar}
+\end{figure}
+
+\subsubsection{\textbf{Non-Isolated Fixed Points}}
+If the determinant of the matrix \(\underline{\underline{\mathbf{A}}}\) is zero, then one or both eigenvalues are zero. This indicates the presence of a non-isolated fixed point, where trajectories may lie on a line or plane of equilibrium points. The behavior of the system depends on the higher-order terms of the dynamics. Consider the following system:
+
+$$
+\begin{cases}
+\dot{x} &= x - y, \\
+\dot{y} &= -x + y.
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} 1 & -1 \\ -1 & 1 \end{pmatrix}
+$$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{NonIsolated.png}
+    \caption{Trace vs determinant diagram and phase portrait for non-isolated fixed points.}
+    \label{fig:NonIsolated}
+\end{figure}
+
+\subsubsection{\textbf{Saddle Nodes}}
+If the eigenvalues have opposite signs (one positive, one negative), the equilibrium point is a saddle. Trajectories approach the origin along one axis and diverge along the other. Consider the following system:
+
+$$
+\begin{cases}
+\dot{x} &= 2x + y, \\
+\dot{y} &= x - 2y.
+\end{cases}
+$$
+$$
+\underline{\underline{\mathbf{A}}} = \begin{pmatrix} 2 & 1 \\ 1 & -2 \end{pmatrix}
+$$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{SaddleNode.png}
+    \caption{Trace vs determinant diagram and phase portrait for a saddle node.}
+    \label{fig:SaddleNode}
+\end{figure}
+
+\subsection{Summary}
+
+Linear systems in two dimensions provide a foundation for understanding more complex dynamical systems. By examining the eigenvalues and eigenvectors of the system's coefficient matrix, we can classify the equilibrium points and predict the system's behavior. In real-world applications, linear models (via linearization) are often used as approximations near stable equilibrium points in hope of gaining a better understanding of the systems behavior, which then can be applied to more complex nonlinear systems, as we shall discuss later.
+
+
+%%%%%%%%%%%%%%%%%%%
+%%% PHASE SPACE %%%
+%%%%%%%%%%%%%%%%%%%
+\section{Phase Space}
+The concept of phase space is a fundamental idea in the study of dynamical systems. It provides a comprehensive way of representing the states of a system in a multi-dimensional space. For a system with multiple degrees of freedom, phase space encapsulates all possible states, offering a powerful tool for analyzing the system's behavior over time.
+
+\subsection{Definition of Phase Space}
+
+In dynamical systems, phase space refers to a space in which all possible states of the system are represented. Each point in this space corresponds to a particular state of the system, which is typically described by the position and momentum (typically non-dimensionalized to velocity) of the system. For example, in classical mechanics, the phase space of a system with \( n \) degrees of freedom is a \( 2n \)-dimensional space, where the first \( n \) dimensions represent position coordinates and the next \( n \) dimensions represent the corresponding momentum or velocity coordinates.
+
+\subsection{Trajectories in Phase Space}
+
+The evolution of a dynamical system can be represented as a trajectory in phase space. A trajectory shows how the system's state evolves over time. In other words, it represents the path that a point follows as the system changes. The shape and nature of these trajectories provide valuable insight into the system's behavior.
+
+For example, in conservative systems (such as in mechanical oscillators), the trajectories are often closed curves, reflecting the conservation of energy. In dissipative systems, however, the trajectories may spiral inward, eventually converging to a fixed point or limit cycle.
+
+\subsection{Phase Space and Fixed Points}
+
+Fixed points, or equilibrium points, are important in phase space analysis. A fixed point is a point in phase space where the system does not change over time. In other words, if the system starts at a fixed point, it will remain there for all future times. These points are crucial for determining the stability of a system.
+
+For a system with a single degree of freedom, a fixed point occurs when the velocity is zero (i.e., the system is at rest). In higher-dimensional systems, the concept of fixed points extends to a region of phase space where the system's trajectory remains constant.
+
+\subsection{Example: Logistic Map Phase Space}
+
+One common example of phase space in one-dimensional systems is the logistic map, a simple recurrence relation that exhibits complex behavior, such as bifurcations and chaos. The logistic map is given by:
+
+\[
+x_{n+1} = r x_n (1 - x_n)
+\]
+
+where \( r \) is a control parameter and \( x_n \) is the state of the system at the \( n \)-th iteration.
+
+Although the logistic map is a one-dimensional system, we can still analyze its phase space by plotting the value of \( x_n \) versus \( x_{n+1} \). The plot of \( x_n \) versus \( x_{n+1} \) reveals information about the long-term behavior of the system.
+
+As the value of \( r \) changes, the trajectory in phase space may exhibit various behaviors, from periodic oscillations to chaotic behavior, providing insight into the dynamics of the system.
+
+\subsection{Applications of Phase Space Analysis}
+
+Phase space analysis is widely used in a variety of scientific fields, including physics, biology, and engineering. It is particularly useful for studying the stability and long-term behavior of dynamical systems. 
+
+\begin{itemize}
+    \item In physics, phase space is used to analyze mechanical systems, such as oscillators, planetary motion, and fluid flow.
+    \item In biology, phase space can be applied to the study of population dynamics, where the state of the system may represent the population sizes of different species.
+    \item In engineering, phase space analysis helps in the design and stability analysis of control systems and mechanical structures.
+\end{itemize}
+
+By examining the trajectories of a system in phase space, one can gain insights into the system's stability, potential periodic behavior, and the onset of chaos.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% NONLINEAR SYSTEMS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Nonlinear Systems}
+\subsection{Driven Duffing Oscillator}
+
+\subsection{Lotka-Volterra Equations (Predator-Prey Model)}
+
+\subsection{The Double Pendulum}
+
+\subsection{Pendulum with Driving Force}
+
+\subsection{The SIR Epidemic Model}
+
+
+%%%%%%%%%%%%%%%%%%%
+%%% PHASE SPACE %%%
+%%%%%%%%%%%%%%%%%%%
+\section{Limit Cycles}
+
+
+%%%%%%%%%%%%%%%%%%%
+%%% PHASE SPACE %%%
+%%%%%%%%%%%%%%%%%%%
+\section{Two-Dimensional Bifurcations}
+
+
+%%%%%%%%%%%%%%%%%%%
+%%% CHAOS %%%
+%%%%%%%%%%%%%%%%%%%
+\chapter{Three-Dimensional Dynamics and Chaotic Systems}
+This is the first chapter.
+
+\section{Chaos}
+
+\section{Lorenz Equations/Attractor}
+
+\section{Rossler Attractor}
+
+\section{Nosé-Hoover Oscillator}
+
+\section{One-Dimensional Maps}
+
+
+\section{Applications}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%% SPECIAL TOPICS %%%
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Special Topics}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% COMPUTATIONAL METHODS IN FLUID DYNAMICS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Applications to Computational Fluid Dynamics}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LID DRIVEN CAVITY %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Lid Driven Cavity}
+\subsubsection{Bifurcation Analysis}
+\subsubsection{Poincare Section}
+\subsubsection{Finite Time Lyapunov Exponent}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FLOW AROUND A CYLINDER %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Flow Around a Cylinder}
+\subsubsection{Bifurcation Analysis}
+\subsubsection{Poincare Section}
+\subsubsection{Finite Time Lyapunov Exponent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% APPLICATIONS OF MACHINE LEARNING %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Applications to Machine Learning}
+
+%%%%%%%%%%%%%%%%
+%%% APPENDIX %%%
+%%%%%%%%%%%%%%%%
+\appendix
+\chapter{Mathematical Background}
+This appendix provides additional mathematical tools used in the book.
+
+\section{Linear Algebra}
+Details about eigenvalues, eigenvectors, and matrix operations.
+
+\section{Numerical Methods}
+Description of numerical schemes such as Euler's method and Runge-Kutta methods.
+
+\chapter{Interactive Websites}
+\section{Driven Duffing Oscillator}
+To explore the driven Duffing oscillator, visit the following interactive website:
+\url{https://tjjones6.github.io/AMEP_Workspace/DrivenDuffing.html}
+\noindent This website provides an interactive simulation of the driven Duffing oscillator where users can adjust parameters and observe the resulting dynamics.
+
+\chapter{Code Listings}
+Here, you can provide MATLAB or Python code snippets referenced in the text.
+
+\section{Logistic Map Code}
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Logistic map function
+def logistic_map(x, r):
+    return r*x*(1 - x)
+
+# Function to compute and plot bifurcation diagram
+def bifurcation_diagram(r_min, r_max, num_r_values, num_iterations, num_skip):
+    # Create a figure
+    plt.figure(figsize=(10, 6))
+    
+    # Values of r (control parameter)
+    r_values = np.linspace(r_min, r_max, num_r_values)
+    
+    # Iterate over values of r
+    for r in r_values:
+        # Initial condition (start the iteration with x = 0.5)
+        x = 0.5
+        
+        # Skip initial transients
+        for i in range(num_iterations - num_skip):
+            x = logistic_map(x, r)
+        
+        # Now plot the last few values of x (the attractors)
+        for i in range(num_skip):
+            x = logistic_map(x, r)
+            plt.plot(r, x, ',k', alpha=0.5)  # ',' for thin dots
+    
+    # Customize plot
+    plt.title("Bifurcation Diagram of Logistic Map")
+    plt.xlabel("r (Control Parameter)")
+    plt.ylabel("x (State of the System)")
+    plt.show()
+
+# Parameters for the bifurcation diagram
+r_min = 2.4      # Minimum value of r
+r_max = 4.0      # Maximum value of r
+num_r_values = 10000  # Number of r values to evaluate
+num_iterations = 100  # Total number of iterations to compute
+num_skip = 100  # Number of iterations to skip for transients
+
+# Generate the bifurcation diagram
+bifurcation_diagram(r_min, r_max, num_r_values, num_iterations, num_skip)
+\end{verbatim}
+
+\bibliographystyle{plain}  % Or any other style you prefer
+\bibliography{references.bib}
+
+\cite{strogatz1994nonlinear}
+\cite{wiggins2003introduction}
+\cite{sprotta2020variants}
+
+
+
+\end{document}
