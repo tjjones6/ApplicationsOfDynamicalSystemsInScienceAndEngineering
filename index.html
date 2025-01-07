@@ -19,6 +19,24 @@
             text-align: center;
             padding: 1em 0;
         }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pdf-button {
+            background: linear-gradient(45deg, #2196F3, #9b59b6);
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .pdf-button:hover {
+            background: linear-gradient(45deg, #9b59b6, #2196F3);
+            transform: scale(1.05);
+        }
         .container {
             width: 80%;
             margin: 2em auto;
@@ -61,6 +79,10 @@
     <p>Access and download the source code for various dynamical system simulations.</p>
 </header>
 
+<div class="button-container">
+    <a href="Applications_Of_Dynamical_Systems_In_Science_And_Engineering.html" class="pdf-button">View PDF Document</a>
+</div>
+
 <div class="container" style="margin-bottom: 20%;">
     <h2>Code Listings</h2>
     <p>Click on the links below to download the code files for various simulations and algorithms related to dynamical systems:</p>
@@ -92,7 +114,6 @@
         </li>
     </ul>
 </div>
-
 
 <footer>
     <p>Tyler Jones</p>
